@@ -252,8 +252,25 @@
             element.onclick = null;
         }
     </script>
-
-
+    
+    <!-- Asegurar que el botón de accesibilidad funcione -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const toggleBtn = document.getElementById('accessibilityToggle');
+        const menu = document.getElementById('accessibilityMenu');
+        
+        if (toggleBtn && menu) {
+          const newToggleBtn = toggleBtn.cloneNode(true);
+          toggleBtn.parentNode.replaceChild(newToggleBtn, toggleBtn);
+          
+          newToggleBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            menu.classList.toggle('active');
+          });
+        }
+      });
+    </script>
 
       <div class="accessibility-menu" id="accessibilityMenu">
         <button class="accessibility-btn" data-action="contrast">

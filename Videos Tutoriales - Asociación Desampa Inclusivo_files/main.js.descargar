@@ -20,7 +20,10 @@ class AccessibilityManager {
 
   init() {
     this.loadSettings();
-    this.createAccessibilityMenu();
+    // Verificar si el menú ya existe en el HTML, si no, crearlo
+    if (!document.getElementById('accessibilityMenu')) {
+      this.createAccessibilityMenu();
+    }
     this.bindEvents();
     this.applySettings();
   }
@@ -87,13 +90,20 @@ class AccessibilityManager {
 
   bindEvents() {
     // Toggle del menú de accesibilidad
-    document.getElementById('accessibilityToggle').addEventListener('click', () => {
-      this.toggleMenu();
-    });
+    const toggleBtn = document.getElementById('accessibilityToggle');
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.toggleMenu();
+      });
+    }
 
     // Botones del menú de accesibilidad
     document.querySelectorAll('.accessibility-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         const action = e.currentTarget.dataset.action;
         this.handleAccessibilityAction(action);
       });
@@ -104,7 +114,7 @@ class AccessibilityManager {
       const menu = document.getElementById('accessibilityMenu');
       const toggle = document.getElementById('accessibilityToggle');
       
-      if (!menu.contains(e.target) && !toggle.contains(e.target)) {
+      if (menu && toggle && !menu.contains(e.target) && !toggle.contains(e.target)) {
         this.closeMenu();
       }
     });
@@ -126,12 +136,16 @@ class AccessibilityManager {
 
   toggleMenu() {
     const menu = document.getElementById('accessibilityMenu');
-    menu.classList.toggle('active');
+    if (menu) {
+      menu.classList.toggle('active');
+    }
   }
 
   closeMenu() {
     const menu = document.getElementById('accessibilityMenu');
-    menu.classList.remove('active');
+    if (menu) {
+      menu.classList.remove('active');
+    }
   }
 
   handleAccessibilityAction(action) {

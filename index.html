@@ -372,6 +372,28 @@
     <!-- Scripts -->
     <script src="./Asociación Desampa Inclusivo - Inicio_files/main.js.descargar"></script>
     
+    <!-- Asegurar que el botón de accesibilidad funcione -->
+    <script>
+      // Backup para asegurar que el botón funcione
+      document.addEventListener('DOMContentLoaded', function() {
+        const toggleBtn = document.getElementById('accessibilityToggle');
+        const menu = document.getElementById('accessibilityMenu');
+        
+        if (toggleBtn && menu) {
+          // Remover cualquier listener previo
+          const newToggleBtn = toggleBtn.cloneNode(true);
+          toggleBtn.parentNode.replaceChild(newToggleBtn, toggleBtn);
+          
+          // Agregar el event listener
+          newToggleBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            menu.classList.toggle('active');
+          });
+        }
+      });
+    </script>
+    
     <!-- Message Functions -->
     <script>
         function showTCUMessage() {
